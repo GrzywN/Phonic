@@ -1,8 +1,8 @@
 {
   "name": "phonic",
-  "productName": "phonic",
+  "productName": "Phonic",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Mulitsource audio player with built-in downloader",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -68,21 +68,37 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.66",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.66",
     "@electron-forge/maker-zip": "^6.0.0-beta.66",
+    "@electron-forge/plugin-electronegativity": "^6.0.0-beta.66",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.66",
+    "@testing-library/react": "^13.4.0",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "css-loader": "^6.7.1",
     "electron": "20.2.0",
     "eslint": "^8.24.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-mantine": "^2.0.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "node-loader": "^2.0.0",
+    "prettier": "^2.7.1",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.1",
-    "typescript": "~4.5.4"
+    "typescript": "~4.5.4",
+    "vitest": "^0.23.4"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "@emotion/react": "^11.10.4",
+    "@mantine/core": "^5.4.1",
+    "@mantine/hooks": "^5.4.1",
+    "@reduxjs/toolkit": "^1.8.5",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "electron-squirrel-startup": "^1.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
