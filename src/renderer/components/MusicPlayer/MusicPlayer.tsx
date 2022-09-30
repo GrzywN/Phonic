@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Stack, Group, ActionIcon, Text, Slider } from "@mantine/core";
 import {
@@ -12,11 +12,9 @@ import {
   IconRepeatOff,
 } from "@tabler/icons";
 
-enum RepeatStatuses {
-  REPEAT,
-  REPEAT_ONCE,
-  NO_REPEAT,
-}
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { playerActions, RepeatStatuses } from "../../store/player-slice";
 
 const getTimeFromSeconds = (seconds: number) => {
   const extractedMinutes = Math.floor(seconds / 60).toString(10);
@@ -30,45 +28,29 @@ const getTimeFromSeconds = (seconds: number) => {
 };
 
 function MusicPlayer() {
-  const [currentSongLength] = useState(83);
-  const [currentSongSecond, setCurrentSongSecond] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const [shuffle, setShuffle] = useState(false);
-  const [repeatStatus, setRepeatStatus] = useState<RepeatStatuses>(
-    RepeatStatuses.NO_REPEAT
+  const dispatch = useDispatch();
+
+  const shuffle = useSelector(({ player }: RootState) => player.shuffle);
+  const playing = useSelector(({ player }: RootState) => player.isPlaying);
+  const repeat = useSelector(({ player }: RootState) => player.repeat);
+  const currentSecond = useSelector(
+    ({ player }: RootState) => player.currentSecond
+  );
+  const totalLength = useSelector(
+    ({ player }: RootState) => player.totalLength
   );
 
-  const handlePlayPause = () => {
-    setPlaying((prevPlaying) => !prevPlaying);
-  };
-
-  const handleShuffle = () => {
-    setShuffle((prevShuffle) => !prevShuffle);
-  };
-
-  const handleRepeat = () => {
-    setRepeatStatus((prevStatus) => {
-      switch (true) {
-        case prevStatus === RepeatStatuses.NO_REPEAT: {
-          return RepeatStatuses.REPEAT;
-        }
-        case prevStatus === RepeatStatuses.REPEAT: {
-          return RepeatStatuses.REPEAT_ONCE;
-        }
-        case prevStatus === RepeatStatuses.REPEAT_ONCE: {
-          return RepeatStatuses.NO_REPEAT;
-        }
-        default: {
-          throw new Error("MusicPlayer: Invalid repeat status");
-        }
-      }
-    });
+  const shuffleHandler = () => dispatch(playerActions.switchShuffle());
+  const playPauseHandler = () => dispatch(playerActions.switchIsPlaying());
+  const repeatHandler = () => dispatch(playerActions.switchRepeat());
+  const currentTimeHandler = (second: number) => {
+    dispatch(playerActions.setCurrentSongSecond(second));
   };
 
   return (
     <Stack spacing="xs" align="center">
       <Group>
-        <ActionIcon onClick={handleShuffle}>
+        <ActionIcon onClick={shuffleHandler}>
           {shuffle ? (
             <IconArrowsShuffle color="orange" />
           ) : (
@@ -78,7 +60,7 @@ function MusicPlayer() {
         <ActionIcon size="lg">
           <IconPlayerSkipBack size={32} />
         </ActionIcon>
-        <ActionIcon onClick={handlePlayPause} size="xl">
+        <ActionIcon onClick={playPauseHandler} size="xl">
           {playing ? (
             <IconPlayerPause size={40} />
           ) : (
@@ -88,22 +70,20 @@ function MusicPlayer() {
         <ActionIcon size="lg">
           <IconPlayerSkipForward size={32} />
         </ActionIcon>
-        <ActionIcon onClick={handleRepeat}>
-          {repeatStatus === RepeatStatuses.REPEAT && (
-            <IconRepeat color="orange" />
-          )}
-          {repeatStatus === RepeatStatuses.REPEAT_ONCE && (
+        <ActionIcon onClick={repeatHandler}>
+          {repeat === RepeatStatuses.REPEAT && <IconRepeat color="orange" />}
+          {repeat === RepeatStatuses.REPEAT_ONCE && (
             <IconRepeatOnce color="orange" />
           )}
-          {repeatStatus === RepeatStatuses.NO_REPEAT && <IconRepeatOff />}
+          {repeat === RepeatStatuses.NO_REPEAT && <IconRepeatOff />}
         </ActionIcon>
       </Group>
       <Group style={{ maxWidth: "32rem", width: "100%" }}>
-        <Text size="xs">{getTimeFromSeconds(currentSongSecond)}</Text>
+        <Text size="xs">{getTimeFromSeconds(currentSecond)}</Text>
         <Slider
-          max={currentSongLength}
-          value={currentSongSecond}
-          onChange={setCurrentSongSecond}
+          max={totalLength}
+          value={currentSecond}
+          onChange={currentTimeHandler}
           style={{ flexGrow: 1 }}
           size="sm"
           color="gray"
@@ -111,7 +91,7 @@ function MusicPlayer() {
           thumbLabel="Current second"
         />
         <Text size="xs">
-          -{getTimeFromSeconds(currentSongLength - currentSongSecond)}
+          -{getTimeFromSeconds(totalLength - currentSecond)}
         </Text>
       </Group>
     </Stack>

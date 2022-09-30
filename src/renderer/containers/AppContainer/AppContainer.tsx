@@ -6,6 +6,9 @@ import {
 } from "@mantine/core";
 import { useLocalStorage, useHotkeys } from "@mantine/hooks";
 
+import { Provider } from "react-redux";
+import store from "../../store";
+
 type AppContainerProps = {
   children: React.ReactNode;
 };
@@ -23,21 +26,23 @@ function AppContainer({ children }: AppContainerProps) {
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
   return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
-    >
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          colorScheme,
-          fontFamily: "'Fira Code', monospace",
-        }}
+    <Provider store={store}>
+      <ColorSchemeProvider
+        colorScheme={colorScheme}
+        toggleColorScheme={toggleColorScheme}
       >
-        {children}
-      </MantineProvider>
-    </ColorSchemeProvider>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            colorScheme,
+            fontFamily: "'Fira Code', monospace",
+          }}
+        >
+          {children}
+        </MantineProvider>
+      </ColorSchemeProvider>
+    </Provider>
   );
 }
 

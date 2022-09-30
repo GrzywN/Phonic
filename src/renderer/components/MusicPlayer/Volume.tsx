@@ -1,28 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
 import { Group, ActionIcon, Slider } from "@mantine/core";
 import { IconVolume, IconVolume2, IconVolume3 } from "@tabler/icons";
 
-function Volume() {
-  const [volume, setVolume] = useState(50);
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { playerActions } from "../../store/player-slice";
 
-  const handleMute = () => {
-    volume > 0 ? setVolume(0) : setVolume(100);
+function Volume() {
+  const dispatch = useDispatch();
+
+  const volume = useSelector(({ player }: RootState) => player.volume);
+
+  const volumeHandler = (value: number) => {
+    dispatch(playerActions.setVolume(value));
+  };
+
+  const muteHandler = () => {
+    volume > 0
+      ? dispatch(playerActions.setVolume(0))
+      : dispatch(playerActions.setVolume(100));
+  };
+
+  const renderVolumeIcon = () => {
+    const full = <IconVolume />;
+    const medium = <IconVolume2 />;
+    const muted = <IconVolume3 />;
+
+    if (volume === 0) return muted;
+    if (volume < 70) return medium;
+    return full;
   };
 
   return (
     <Group style={{ maxWidth: "12rem", width: "100%", justifySelf: "end" }}>
-      <ActionIcon onClick={handleMute}>
-        {volume === 0 ? (
-          <IconVolume3 />
-        ) : volume > 70 ? (
-          <IconVolume />
-        ) : (
-          <IconVolume2 />
-        )}
-      </ActionIcon>
+      <ActionIcon onClick={muteHandler}>{renderVolumeIcon()}</ActionIcon>
       <Slider
         value={volume}
-        onChange={setVolume}
+        onChange={volumeHandler}
         label={null}
         size="sm"
         color="gray"

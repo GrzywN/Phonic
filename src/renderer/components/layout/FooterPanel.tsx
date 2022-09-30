@@ -11,7 +11,7 @@ function FooterPanel() {
       py="md"
       style={{
         display: "grid",
-        gridTemplateColumns: "2fr 8fr 2fr",
+        gridTemplateColumns: "4fr 8fr 4fr",
         alignItems: "center",
       }}
     >
