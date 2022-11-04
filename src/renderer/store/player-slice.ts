@@ -14,8 +14,8 @@ interface PlayerState {
   shuffle: boolean;
   isPlaying: boolean;
   repeat: RepeatStatuses;
-  totalLength: number;
-  currentSecond: number;
+  totalTrackLength: number;
+  currentTrackSecond: number;
   volume: number;
 }
 
@@ -25,8 +25,8 @@ const initialState: PlayerState = {
   isPlaying: false,
   shuffle: false,
   repeat: RepeatStatuses.NO_REPEAT,
-  totalLength: 83,
-  currentSecond: 0,
+  totalTrackLength: 83,
+  currentTrackSecond: 0,
   volume: 50,
 };
 
@@ -42,9 +42,16 @@ const playerSlice = createSlice({
     },
     switchShuffle(state) {
       state.shuffle = !state.shuffle;
+
+      // TODO: Dodać shuffle do akcji queue, oprócz pierwszego
+      // wszystkie mają się losować
+      // stan musi być zachowany, aby potem go z powrotem przywrócić
     },
     switchIsPlaying(state) {
       state.isPlaying = !state.isPlaying;
+
+      // TODO: Może wywalić błąd
+      // state.isPlaying ? state.audio.play() : state.audio.pause();
     },
     switchRepeat(state) {
       if (state.repeat === RepeatStatuses.NO_REPEAT) {
@@ -57,11 +64,18 @@ const playerSlice = createSlice({
         throw new Error("player-slice: Invalid RepeatStatus");
       }
     },
-    setCurrentSongSecond(state, action) {
-      state.currentSecond = action.payload;
+    setTotalTrackLength(state, action) {
+      state.totalTrackLength = action.payload;
+    },
+    setCurrentTrackSecond(state, action) {
+      state.currentTrackSecond = action.payload;
+
+      // state.audio.currentTime = state.currentTrackSecond;
     },
     setVolume(state, action) {
       state.volume = action.payload;
+
+      // state.audio.volume = state.volume / 100;
     },
   },
 });

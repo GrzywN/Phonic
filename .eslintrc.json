@@ -19,5 +19,11 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["prettier"]
+  "plugins": ["prettier"],
+  "rules": {"prettier/prettier": [
+    "error",
+    {
+      "printWidth": 100
+    }
+  ]}
 }

@@ -6,22 +6,11 @@ function CreatePlaylist() {
 
   return (
     <>
-      <Modal
-        centered
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Create Playlist"
-      >
+      <Modal centered opened={opened} onClose={() => setOpened(false)} title="Create Playlist">
         Modal content
       </Modal>
-
       <Group position="center">
-        <Button
-          radius={0}
-          color="orange"
-          fullWidth
-          onClick={() => setOpened(true)}
-        >
+        <Button radius={0} color="orange" fullWidth onClick={() => setOpened(true)}>
           Create Playlist
         </Button>
       </Group>

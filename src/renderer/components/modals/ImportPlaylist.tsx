@@ -6,12 +6,7 @@ function ImportPlaylist() {
 
   return (
     <>
-      <Modal
-        centered
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Import Playlist"
-      >
+      <Modal centered opened={opened} onClose={() => setOpened(false)} title="Import Playlist">
         Modal content
       </Modal>
 

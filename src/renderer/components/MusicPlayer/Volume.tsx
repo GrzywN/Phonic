@@ -2,24 +2,10 @@ import React from "react";
 import { Group, ActionIcon, Slider } from "@mantine/core";
 import { IconVolume, IconVolume2, IconVolume3 } from "@tabler/icons";
 
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { playerActions } from "../../store/player-slice";
+import usePlayer from "../../hooks/usePlayer";
 
 function Volume() {
-  const dispatch = useDispatch();
-
-  const volume = useSelector(({ player }: RootState) => player.volume);
-
-  const volumeHandler = (value: number) => {
-    dispatch(playerActions.setVolume(value));
-  };
-
-  const muteHandler = () => {
-    volume > 0
-      ? dispatch(playerActions.setVolume(0))
-      : dispatch(playerActions.setVolume(100));
-  };
+  const { volume, volumeHandler, muteHandler } = usePlayer();
 
   const renderVolumeIcon = () => {
     const full = <IconVolume />;

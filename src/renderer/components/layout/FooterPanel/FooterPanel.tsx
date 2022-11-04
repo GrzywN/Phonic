@@ -1,7 +1,6 @@
 import React from "react";
 import { Footer } from "@mantine/core";
-
-import { CurrentSongInfo, MusicPlayer, Volume } from "../MusicPlayer";
+import { CurrentSongInfo, MusicPlayer, Volume } from "../../MusicPlayer";
 
 function FooterPanel() {
   return (

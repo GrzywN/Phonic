@@ -1,13 +1,10 @@
 import React from "react";
-import {
-  MantineProvider,
-  ColorSchemeProvider,
-  ColorScheme,
-} from "@mantine/core";
+import { MantineProvider, ColorSchemeProvider, ColorScheme } from "@mantine/core";
 import { useLocalStorage, useHotkeys } from "@mantine/hooks";
 
 import { Provider } from "react-redux";
 import store from "../../store";
+import AudioContainer from "../AudioContainer";
 
 type AppContainerProps = {
   children: React.ReactNode;
@@ -27,10 +24,7 @@ function AppContainer({ children }: AppContainerProps) {
 
   return (
     <Provider store={store}>
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
-      >
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider
           withGlobalStyles
           withNormalizeCSS
@@ -39,7 +33,7 @@ function AppContainer({ children }: AppContainerProps) {
             fontFamily: "'Fira Code', monospace",
           }}
         >
-          {children}
+          <AudioContainer>{children}</AudioContainer>
         </MantineProvider>
       </ColorSchemeProvider>
     </Provider>

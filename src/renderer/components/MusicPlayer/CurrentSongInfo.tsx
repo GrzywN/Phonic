@@ -2,12 +2,10 @@ import React from "react";
 import { Group, Avatar, Text } from "@mantine/core";
 import { IconMusic } from "@tabler/icons";
 
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import usePlayer from "../../hooks/usePlayer";
 
 function CurrentSongInfo() {
-  const title = useSelector(({ player }: RootState) => player.title);
-  const source = useSelector(({ player }: RootState) => player.source);
+  const { title, source } = usePlayer();
 
   return (
     <Group>
